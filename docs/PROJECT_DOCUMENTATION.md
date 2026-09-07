@@ -1,10 +1,10 @@
-# Cursor WhatsApp Bridge — Project Documentation
+# Cursor WhatsApp Bridge: Project Documentation
 
 ## 1. Purpose
 
-This project is a local, single-process bridge between WhatsApp and Cursor Agent. An allowlisted WhatsApp user can select a local project, send a software task by text, screenshot, or voice note, and receive Cursor's response in the same WhatsApp conversation.
+This app sits between WhatsApp and Cursor Agent on your Mac. An allowed WhatsApp user picks a local project, sends a task by text, screenshot, or voice note, and gets Cursor's reply in the same chat.
 
-The bridge runs on the Mac that owns the configured project folders. It does not expose an HTTP server, REST API, webhook, admin UI, or public network endpoint.
+It is one Node process. It has no web server, API, webhook, or public URL.
 
 ## 2. System architecture
 
@@ -78,13 +78,13 @@ npm test
 
 | Variable | Required | Default | Meaning |
 |---|---:|---|---|
-| `ALLOWED_NUMBERS` | Yes, unless alias is used | — | Comma-separated owner WhatsApp numbers. Non-digits are removed. |
-| `ADMIN_WHATSAPP_PHONE` | Alternative | — | Single-number compatibility alias. |
+| `ALLOWED_NUMBERS` | Yes, unless alias is used | none | Comma-separated owner WhatsApp numbers. Non-digits are removed. |
+| `ADMIN_WHATSAPP_PHONE` | Alternative | none | Single-number compatibility alias. |
 | `CURSOR_BIN` | No | `cursor` | Cursor CLI executable. |
-| `DEFAULT_PROJECT` | No | — | Initial key from `projects.json`. |
+| `DEFAULT_PROJECT` | No | none | Initial key from `projects.json`. |
 | `APP_NAME` | No | `CursorWA` | WhatsApp linked-device browser identity. |
 | `CURSOR_TIMEOUT_MIN` | No | `15` | Maximum Cursor run duration; minimum accepted value is one minute. |
-| `OPENAI_API_KEY` | No | — | Enables voice-note transcription with Whisper. |
+| `OPENAI_API_KEY` | No | none | Turns voice notes into text with Whisper. |
 | `RETENTION_DAYS` | No | `7` | Age threshold for startup cleanup; minimum is one day. |
 
 The maximum outbound WhatsApp message size is fixed at 4,000 characters.

@@ -41,8 +41,8 @@ export function resolveAccessRole(
 export function assertAllowlistConfigured(allowedNumbers: string[]): void {
   if (allowedNumbers.length === 0) {
     throw new Error(
-      "ALLOWED_NUMBERS (or ADMIN_WHATSAPP_PHONE) is empty — refusing to start. " +
-        "Set at least one owner number so arbitrary senders cannot drive Cursor with --force --trust."
+      "ALLOWED_NUMBERS (or ADMIN_WHATSAPP_PHONE) is empty. Refusing to start. " +
+        "Set at least one owner number so random senders cannot drive Cursor with --force --trust."
     );
   }
 }

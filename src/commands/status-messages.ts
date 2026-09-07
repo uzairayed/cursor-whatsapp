@@ -4,12 +4,12 @@ export function buildWorkingMessage(
 ): string {
   const name = projectKey.toUpperCase();
   if (mode === "ask") {
-    return `On it — *ask mode* (read-only) in *${name}*. Say *stop* to cancel.`;
+    return `On it. *Ask mode* (read only) in *${name}*. Say *stop* to cancel.`;
   }
   if (mode === "plan") {
-    return `On it — *plan mode* in *${name}*. Say *stop* to cancel.`;
+    return `On it. *Plan mode* in *${name}*. Say *stop* to cancel.`;
   }
-  return `On it — working in *${name}*. I'll check in as I go. Say *stop* to cancel.`;
+  return `On it. Working in *${name}*. I'll check in as I go. Say *stop* to cancel.`;
 }
 
 export function buildStoppedMessage(): string {
@@ -18,9 +18,9 @@ export function buildStoppedMessage(): string {
 
 export function buildBusyStatusMessage(projectKey: string | null): string {
   if (!projectKey) {
-    return "Yes — I'm still working. Say *stop* to cancel.";
+    return "Yes. I'm still working. Say *stop* to cancel.";
   }
-  return `Yes — still working in *${projectKey.toUpperCase()}*. Say *stop* to cancel.`;
+  return `Yes. Still working in *${projectKey.toUpperCase()}*. Say *stop* to cancel.`;
 }
 
 export function buildMultiAgentStatusMessage(
@@ -32,8 +32,8 @@ export function buildMultiAgentStatusMessage(
     const names = busy.map((b) => `*${b.projectKey.toUpperCase()}*`).join(", ");
     lines.push(
       busy.length === 1
-        ? `Yes — still working in ${names}.`
-        : `Yes — ${busy.length} agents running: ${names}.`
+        ? `Yes. Still working in ${names}.`
+        : `Yes. ${busy.length} agents running: ${names}.`
     );
   }
 
@@ -55,9 +55,9 @@ export function buildMultiAgentStatusMessage(
 }
 
 export function buildIdleStatusMessage(): string {
-  return "I'm free right now — send a prompt whenever.";
+  return "I'm free. Send a task whenever.";
 }
 
 export function buildTimedOutMessage(): string {
-  return "That took too long, I stopped it — try breaking the task up.";
+  return "That took too long, so I stopped it. Try a smaller task.";
 }

@@ -53,42 +53,42 @@ export function buildHelpMessage(projects: ProjectStore): string {
     : "You haven't picked a project yet.";
 
   return [
-    "Hey — you can talk to Cursor right here.",
+    "Hey. You can talk to Cursor here.",
     "",
     projectLine,
     "",
-    "Just text me what you want done, or forward a screenshot.",
+    "Send what you want done, or forward a screenshot.",
     "",
     "*Which project?* Reply with a number or the name:",
     projects.formatPicker(),
     "",
-    "You can also say things like:",
-    '• "ask <question>" — read-only Q&A (no edits)',
-    '• Forward a message (or "issue <text>") - file a GitHub issue',
+    "You can also say:",
+    '• "ask <question>" to ask without changing files',
+    '• Forward a message (or "issue <text>") to open a GitHub issue',
     '• "switch to shop"',
     '• "what project am I on?"',
-    '• "new chat" to start a fresh Cursor thread',
-    '• "status" to check if I\'m still working',
-    '• "stop" if I\'m still working',
+    '• "new chat" to start a fresh Cursor chat',
+    '• "status" to see if I am still working',
+    '• "stop" if I am still working',
     '• "stop all" to cancel and clear the queue',
-    '• "orchestrate" — main agent + specialist subagents (default)',
-    '• "solo" — one agent, no fan-out',
-    '• "which mode" — show orchestrate vs solo',
-    "• Big tasks get a *plan* first — reply *go* to implement",
+    '• "orchestrate" to use a main agent plus helpers (default)',
+    '• "solo" to use one agent only',
+    '• "which mode" to see orchestrate or solo',
+    "• Big tasks get a *plan* first. Reply *go* to start the work.",
   ].join("\n");
 }
 
 export function buildCasualHelpMessage(): string {
   return [
-    "Hey — you're in *GENERAL* casual chat.",
+    "Hey. You're in *GENERAL* casual chat.",
     "",
-    "Just text me what you want to talk about.",
+    "Send what you want to talk about.",
     "",
     "You can also say:",
-    '• "ask <question>" — read-only Q&A',
-    '• "new chat" to start a fresh thread',
-    '• "status" to check if I\'m still working',
-    '• "stop" if I\'m still working',
+    '• "ask <question>" to ask without changing files',
+    '• "new chat" to start a fresh chat',
+    '• "status" to see if I am still working',
+    '• "stop" if I am still working',
   ].join("\n");
 }
 
@@ -119,7 +119,7 @@ function tryPickProject(
     }
     return {
       handled: true,
-      reply: `Got it — working in *${picked.key.toUpperCase()}* now.\n\nWhat do you need?`,
+      reply: `Got it. Working in *${picked.key.toUpperCase()}* now.\n\nWhat do you need?`,
     };
   }
 
@@ -127,7 +127,7 @@ function tryPickProject(
     const set = projects.setCurrent(text)!;
     return {
       handled: true,
-      reply: `Got it — working in *${set.key.toUpperCase()}* now.\n\nWhat do you need?`,
+      reply: `Got it. Working in *${set.key.toUpperCase()}* now.\n\nWhat do you need?`,
     };
   }
 
@@ -163,11 +163,11 @@ export function handleUserMessage(ctx: CommandContext): CommandResult {
   if (ctx.access === "casual") {
     if (ctx.projects.isAwaitingProjectPick()) {
       if (/^\d+$/.test(body)) {
-        return { handled: true, reply: "You're in casual chat — no project access." };
+        return { handled: true, reply: "This is casual chat. You can't pick a project here." };
       }
       const picked = tryPickProject(ctx.projects, body, { allowNumber: false });
       if (picked) {
-        return { handled: true, reply: "You're in casual chat — no project access." };
+        return { handled: true, reply: "This is casual chat. You can't pick a project here." };
       }
       ctx.projects.setAwaitingProjectPick(false);
     }
@@ -183,12 +183,12 @@ export function handleUserMessage(ctx: CommandContext): CommandResult {
     if (
       /^(projects|list projects|show projects|switch project|change project|choose project)\b/i.test(lower)
     ) {
-      return { handled: true, reply: "You're in casual chat — no project access." };
+      return { handled: true, reply: "This is casual chat. You can't pick a project here." };
     }
 
     const switchMatch = body.match(/^(?:switch\s+to|use|go\s+to|open|project)\s+(.+)$/i);
     if (switchMatch) {
-      return { handled: true, reply: "You're in casual chat — no project access." };
+      return { handled: true, reply: "This is casual chat. You can't pick a project here." };
     }
 
     if (/^(current|where am i|which project|what project)/i.test(lower)) {
@@ -218,7 +218,7 @@ export function handleUserMessage(ctx: CommandContext): CommandResult {
       return {
         handled: true,
         reply:
-          "General chat doesn't use orchestrate/solo — just talk normally. Switch to a code project to change agent mode.",
+          "General chat does not use orchestrate or solo. Just talk normally. Switch to a code project to change agent mode.",
       };
     }
     if (modeIntent.kind === "set") {
@@ -247,7 +247,7 @@ export function handleUserMessage(ctx: CommandContext): CommandResult {
     if (!ctx.conversations) {
       return {
         handled: true,
-        reply: "I can't reset the chat right now — try again in a moment.",
+        reply: "I can't reset the chat right now. Try again in a moment.",
       };
     }
     if (ctx.access === "casual") {
@@ -256,7 +256,7 @@ export function handleUserMessage(ctx: CommandContext): CommandResult {
       ctx.projects.setPendingPlan(null);
       return {
         handled: true,
-        reply: "Clean slate for *GENERAL* — next message starts a fresh Cursor chat.",
+        reply: "New chat for *GENERAL*. Your next message starts a fresh Cursor chat.",
       };
     }
     const current = ctx.projects.getCurrent();
@@ -271,7 +271,7 @@ export function handleUserMessage(ctx: CommandContext): CommandResult {
     ctx.projects.setPendingPlan(null);
     return {
       handled: true,
-      reply: `Clean slate for *${current.key.toUpperCase()}* — next message starts a fresh Cursor chat.`,
+      reply: `New chat for *${current.key.toUpperCase()}*. Your next message starts a fresh Cursor chat.`,
     };
   }
 
@@ -292,7 +292,7 @@ export function handleUserMessage(ctx: CommandContext): CommandResult {
     ctx.projects.setAwaitingProjectPick(true);
     return {
       handled: true,
-      reply: buildProjectPrompt(ctx.projects, "Sure — which project?"),
+      reply: buildProjectPrompt(ctx.projects, "Which project?"),
     };
   }
 
@@ -311,7 +311,7 @@ export function handleUserMessage(ctx: CommandContext): CommandResult {
     };
   }
 
-  // Status — multi-agent aware
+  // Status: more than one agent can be running
   if (
     /^(status|are you (still )?working|you there|still working)\??$/i.test(lower)
   ) {
@@ -331,7 +331,7 @@ export function handleUserMessage(ctx: CommandContext): CommandResult {
     return { handled: true, reply: buildIdleStatusMessage() };
   }
 
-  // Stop all — cancel every run and clear all queues
+  // Stop all: cancel every run and clear all queues
   if (/^(stop all|cancel all)\b/i.test(lower)) {
     const status = ctx.getRunStatus();
     const cleared = ctx.clearAllQueues();
@@ -341,8 +341,8 @@ export function handleUserMessage(ctx: CommandContext): CommandResult {
         handled: true,
         reply:
           cleared > 0
-            ? `Okay, stopping ${status.busy.length} run${status.busy.length === 1 ? "" : "s"} and clearing ${cleared} queued task${cleared === 1 ? "" : "s"}…`
-            : `Okay, stopping ${status.busy.length === 1 ? "that" : `all ${status.busy.length} runs`}…`,
+            ? `Okay, stopping ${status.busy.length} run${status.busy.length === 1 ? "" : "s"} and clearing ${cleared} queued task${cleared === 1 ? "" : "s"}...`
+            : `Okay, stopping ${status.busy.length === 1 ? "that" : `all ${status.busy.length} runs`}...`,
       };
     }
     if (cleared > 0) {
@@ -368,8 +368,8 @@ export function handleUserMessage(ctx: CommandContext): CommandResult {
     return {
       handled: true,
       reply: cleared > 0
-        ? `Okay, stopping that and clearing ${cleared} queued task${cleared === 1 ? "" : "s"}…`
-        : "Okay, stopping that…",
+        ? `Okay, stopping that and clearing ${cleared} queued task${cleared === 1 ? "" : "s"}...`
+        : "Okay, stopping that...",
     };
   }
 
@@ -380,7 +380,7 @@ export function handleUserMessage(ctx: CommandContext): CommandResult {
     ctx.projects.setAwaitingProjectPick(true);
     return {
       handled: true,
-      reply: `Hmm, I'm not sure what that means.\n\n${buildHelpMessage(ctx.projects)}`,
+      reply: `I don't know that command.\n\n${buildHelpMessage(ctx.projects)}`,
     };
   }
 
@@ -390,7 +390,7 @@ export function handleUserMessage(ctx: CommandContext): CommandResult {
       handled: true,
       reply: buildProjectPrompt(
         ctx.projects,
-        "Quick one first — which project is this for?"
+        "Which project is this for?"
       ),
     };
   }

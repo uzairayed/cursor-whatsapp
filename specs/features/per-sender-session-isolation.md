@@ -7,7 +7,7 @@ Related: `casual-general-access.md`, token footers in `usage.ts`
 ## Problem
 
 1. Casual numbers already get `sessionKey = general__wa:<phone>` on the happy path, but **queued** runs (same `general/` workspace busy) drop `sessionKey`. Dequeued prompts fall back to storage key `general`, so different numbers can resume/overwrite one shared Cursor session.
-2. Fresh casual turns still burn ~20k input tokens because casual chat runs under global **orchestrate** mode (TDD/Task preamble) even for “hi”.
+2. Fresh casual turns still burn ~20k input tokens because casual chat runs under global **orchestrate** mode (TDD/Task preamble) even for "hi".
 3. Long project sessions balloon (100k+ input tokens) via `--resume`; users must remember `new chat`. We should auto-rotate when the last turn was already huge.
 
 ## Goal
@@ -31,7 +31,7 @@ Related: `casual-general-access.md`, token footers in `usage.ts`
 
 ### Casual = solo wrapping
 
-- Casual prompts always wrap with `solo` agent mode (no orchestration preamble), regardless of the owner’s global agent-mode setting.
+- Casual prompts always wrap with `solo` agent mode (no orchestration preamble), regardless of the owner's global agent-mode setting.
 - Owners keep their configured orchestrate/solo mode.
 
 ### Smart history rotation
@@ -45,7 +45,7 @@ Related: `casual-general-access.md`, token footers in `usage.ts`
 
 - Parallel Cursor runs against the same `general/` directory (workspace lock stays).
 - Per-owner isolation on real project paths (owners still share project session keys unless a conversation override is passed).
-- Changing Cursor’s own context window or model.
+- Changing Cursor's own context window or model.
 
 ## Acceptance tests (minimum)
 

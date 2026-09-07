@@ -32,7 +32,7 @@ function isUsableAssistantEvent(event: CursorStreamEvent): boolean {
   if (event.type !== "assistant") return false;
   if (event.model_call_id) return false;
   // Final flush duplicates omit timestamp_ms when stream-partial is on;
-  // without stream-partial, complete messages also omit it — keep those.
+  // without stream-partial, complete messages also omit it. Keep those.
   if (event.timestamp_ms === undefined && event.model_call_id === undefined) {
     // Heuristic: if message exists and looks complete, keep it.
     return Boolean(assistantText(event));

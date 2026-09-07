@@ -24,5 +24,5 @@ export function formatUsageFooter(
   const warn = opts.warn ?? shouldWarnContext(usage);
   const base = `_${formatTokenCount(usage.inputTokens)} tokens this turn_`;
   if (!warn) return base;
-  return `${base}\nChat is getting large — say *new chat* to start fresh.`;
+  return `${base}\nChat is getting large. Say *new chat* to start fresh.`;
 }

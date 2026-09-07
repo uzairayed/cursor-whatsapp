@@ -18,17 +18,17 @@ src/
 
 ## Loop
 
-1. **Spec** — write or update a file under `specs/features/` with acceptance criteria, commands, and non-goals.
-2. **Red** — add a failing Vitest that asserts one acceptance criterion.
-3. **Green** — implement the minimum in `src/` to pass.
-4. **Refactor** — clean up with tests still green.
+1. **Spec**: write or update a file under `specs/features/` with acceptance criteria, commands, and non-goals.
+2. **Red**: add a failing Vitest that asserts one acceptance criterion.
+3. **Green**: implement the minimum in `src/` to pass.
+4. **Refactor**: clean up with tests still green.
 5. Only then mark the criterion done in the feature spec.
 
 ## Multi-agent model
 
-WhatsApp still starts **one** Cursor CLI process (the main / orchestrator agent). That agent uses Cursor’s Task tool to launch specialist subagents defined in `.cursor/agents/`.
+WhatsApp still starts **one** Cursor CLI process (the main / orchestrator agent). That agent uses Cursor's Task tool to launch specialist subagents defined in `.cursor/agents/`.
 
-The bridge does **not** spawn N independent `cursor agent` processes. Parallelism is inside the main agent’s session.
+The bridge does **not** spawn N independent `cursor agent` processes. Parallelism is inside the main agent's session.
 
 ## Target projects
 

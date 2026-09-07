@@ -24,10 +24,10 @@ Treat a prompt as large when any is true:
 
 When `shouldPlanFirst(prompt)` is true (and there is no pending plan being approved):
 
-1. Spawn Cursor with `--mode ask` (read-only, no `--force`) — not CLI `--mode plan`, which often hides the real plan in a UI artifact and only returns a short “I’ll draft…” stub
+1. Spawn Cursor with `--mode ask` (read-only, no `--force`). Do not use CLI `--mode plan`, which often hides the real plan in a UI artifact and only returns a short "I'll draft..." stub
 2. Start a **fresh** session (`resume=false`) with a plan-only preamble that requires the final message to *be* the plan
 3. Use `--output-format stream-json` and prefer the longest assistant message when the terminal result is a stub
-4. If the reply still looks like a stub, retry once with a “print the plan now” prompt (`resume=true`)
+4. If the reply still looks like a stub, retry once with a "print the plan now" prompt (`resume=true`)
 5. On success, store a pending plan in `state.json` and reply with the plan plus: reply *go* to implement
 6. Log `cursorMode=ask` in the start line
 

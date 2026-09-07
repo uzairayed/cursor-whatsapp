@@ -1,4 +1,4 @@
-# Feature: Casual numbers → general-only chat
+# Feature: Casual numbers, general-only chat
 
 Status: **done**
 
@@ -12,7 +12,7 @@ Some WhatsApp numbers should be allowed to chat with Cursor casually, but must n
 
 - Owners (`ALLOWED_NUMBERS`) keep full project access.
 - Casual numbers (`CASUAL_NUMBERS`) may only use the local `general/` scratch workspace.
-- Casual senders get their own Cursor sessions (not shared with each other or with the owner’s general chat).
+- Casual senders get their own Cursor sessions (not shared with each other or with the owner's general chat).
 
 ## Behavior
 
@@ -34,15 +34,15 @@ Some WhatsApp numbers should be allowed to chat with Cursor casually, but must n
 
 ### Authorization
 
-1. Owner phone → full access (today’s behavior).
-2. Casual phone → accept message, lock to `general`.
-3. Anyone else → ignore (no reply), same as today.
+1. Owner phone: full access (today's behavior).
+2. Casual phone: accept message, lock to `general`.
+3. Anyone else: ignore (no reply), same as today.
 
 ### Casual UX
 
-- Always run prompts against `general` (do **not** change the owner’s `currentProject` in `state.json`).
+- Always run prompts against `general` (do **not** change the owner's `currentProject` in `state.json`).
 - Help / greetings: general-only copy (no project picker, no switch/orchestrate tips).
-- `switch to …`, bare project names, numbered picker, `projects` → refuse with a short “casual chat only / no project access” message.
+- `switch to ...`, bare project names, numbered picker, `projects`: refuse with a short "This is casual chat. You can't pick a project here." message.
 - `ask …`, `status`, `stop`, `new chat`, plan/go still work within general.
 - Session storage key: `general__wa:<phone>` so each casual number has an isolated Cursor chat.
 - Runner `sessionKey` must support that namespaced key (workspace path remains `generalDir`).
@@ -54,7 +54,7 @@ Some WhatsApp numbers should be allowed to chat with Cursor casually, but must n
 - Unchanged for real projects, except `general` appears in the project picker and can be selected like any other project.
 - Owner sessions for `general` stay keyed as `general` when no conversation override is passed.
 - When the current project is `general`, prompts use the same general-chat preamble (never the orchestrate TDD preamble).
-- Orchestrate / solo / “which mode” are **not available** in casual chat or when the current project is `general` — reply that general chat does not use agent modes (global mode is left unchanged).
+- Orchestrate / solo / "which mode" are **not available** in casual chat or when the current project is `general`. Reply that general chat does not use agent modes (global mode is left unchanged).
 
 ## Non-goals
 

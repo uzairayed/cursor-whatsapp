@@ -18,7 +18,7 @@ export function buildCiReviewPrompt(input: CiReviewPromptInput): string {
   if (diff.length > maxDiffChars) {
     diff = diff.slice(0, maxDiffChars);
     truncatedNote =
-      "\n\n[diff truncated — review what is shown; call out that the full diff was too large to embed]\n";
+      "\n\n[diff truncated. Review what is shown. Say that the full diff was too large to embed]\n";
   }
 
   return [

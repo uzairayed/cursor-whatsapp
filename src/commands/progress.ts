@@ -12,7 +12,7 @@ export function formatElapsed(elapsedSec: number): string {
 }
 
 export function formatProgressMessage(elapsedSec: number, projectKey: string): string {
-  return `Still working in *${projectKey.toUpperCase()}*… (${formatElapsed(elapsedSec)}). Say *stop* to cancel.`;
+  return `Still working in *${projectKey.toUpperCase()}*... (${formatElapsed(elapsedSec)}). Say *stop* to cancel.`;
 }
 
 export function createProgressHeartbeat(opts: {

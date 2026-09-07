@@ -20,7 +20,7 @@ describe("loadConfig casual access fields", () => {
   });
 
   it("defaults casualNumbers to [] when CASUAL_NUMBERS is not set", () => {
-    // Empty string (not delete) — loadEnvFile would refill from .env if undefined
+    // Empty string (not delete). loadEnvFile would refill from .env if undefined
     process.env.CASUAL_NUMBERS = "";
     const config = loadConfig();
     expect(config.casualNumbers).toEqual([]);

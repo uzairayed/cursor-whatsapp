@@ -18,7 +18,7 @@ WhatsApp → MessageRouter → CursorRunner (1 process)
 
 - Keep the existing global single-active-run + FIFO queue.
 - Do **not** spawn multiple top-level `cursor agent` processes from the bridge.
-- Use Cursor’s native Task / subagent tooling inside the main session.
+- Use Cursor's native Task / subagent tooling inside the main session.
 - Specialist prompts live in `.cursor/agents/`; role contracts live in `specs/agents/`.
 
 ## Modes
@@ -86,4 +86,4 @@ Mode is global (shared by all allowlisted users), persisted in `state.json` as `
 
 ## Open decisions
 
-None for v1 — Cursor-native subagents inside one main process is the chosen path.
+None for v1. Cursor-native subagents inside one main process is the chosen path.

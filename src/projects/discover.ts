@@ -5,7 +5,7 @@ import { expandHome } from "../utils/path.js";
 export type ProjectsMap = Record<string, string>;
 
 export interface ProjectsFileConfig {
-  /** Parent folders — each immediate child project folder is listed */
+  /** Parent folders. Each immediate child project folder is listed. */
   dirs?: string[];
   /** Folder names to skip (case-insensitive) */
   exclude?: string[];

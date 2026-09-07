@@ -306,7 +306,7 @@ describe("MessageRouter", () => {
     });
 
     it("dequeued casual prompt carries sessionKey (queue path preserves per-sender isolation)", async () => {
-      // RED: QueuedRunOptions has no sessionKey field — dequeued runs lose the
+      // RED: QueuedRunOptions has no sessionKey field. Dequeued runs lose the
       // namespaced key and fall back to bare "general".
       const { config, generalWorkspace } = setup();
       const router = new MessageRouter(config);
@@ -327,7 +327,7 @@ describe("MessageRouter", () => {
       router.runners.markRunning(generalWorkspace, "general");
 
       const reply = async (_t: string) => {};
-      // Phone A sends a prompt while general is busy — it gets queued.
+      // Phone A sends a prompt while general is busy. It gets queued.
       await router.handle("task from phone A", reply, {
         access: "casual",
         conversationKey: "wa:111000000001",
@@ -336,7 +336,7 @@ describe("MessageRouter", () => {
       // Release the slot so the next handle runs and drains the queue.
       router.runners.markIdle(generalWorkspace);
 
-      // Phone B sends a prompt — this runs immediately and drainAfterRun
+      // Phone B sends a prompt. This runs immediately and drainAfterRun
       // picks up Phone A's queued item.
       await router.handle("task from phone B", reply, {
         access: "casual",
@@ -392,7 +392,7 @@ describe("MessageRouter", () => {
         conversationKey: "wa:333333333333",
       });
 
-      // Every run must use a namespaced key — never the bare "general".
+      // Every run must use a namespaced key. Never the bare "general".
       for (const entry of capturedSessionKeys) {
         expect(
           entry.sessionKey,
@@ -405,7 +405,7 @@ describe("MessageRouter", () => {
       }
     });
 
-    it("casual ask queued while general busy — dequeued run carries namespaced sessionKey", async () => {
+    it("casual ask queued while general busy. Dequeued run carries namespaced sessionKey", async () => {
       // RED: tryQueue for the ask-branch is called without sessionKey in runOpts,
       // so the dequeued item runs with sessionKey === undefined instead of the
       // namespaced "general__wa:<phone>" key.
@@ -453,7 +453,7 @@ describe("MessageRouter", () => {
       expect(askCall!.sessionKey).toBe("general__wa:923001111111");
     });
 
-    it("casual plan-approve queued while general busy — dequeued run carries namespaced sessionKey", async () => {
+    it("casual plan-approve queued while general busy. Dequeued run carries namespaced sessionKey", async () => {
       // RED: tryQueue for the plan-approve casual branch is called without
       // sessionKey in runOpts, so the dequeued item runs with sessionKey ===
       // undefined instead of the namespaced "general__wa:<phone>" key.
@@ -518,7 +518,7 @@ describe("MessageRouter", () => {
       const { config, generalWorkspace } = setup();
       const router = new MessageRouter(config);
 
-      // Set global mode to orchestrate — the bug surfaces only when this is set.
+      // Set global mode to orchestrate. The bug shows only when this is set.
       router.projects.setAgentMode("orchestrate");
       expect(router.projects.getAgentMode()).toBe("orchestrate");
 
@@ -555,7 +555,7 @@ describe("MessageRouter", () => {
       const { config, generalWorkspace } = setup();
       const router = new MessageRouter(config);
 
-      // Set global mode to orchestrate — the bug surfaces only when this is set.
+      // Set global mode to orchestrate. The bug shows only when this is set.
       router.projects.setAgentMode("orchestrate");
 
       const runner = router.runners.getRunnerFor(generalWorkspace);
@@ -672,7 +672,7 @@ describe("MessageRouter", () => {
       expect(capturedPrompt).toContain("refactor auth");
     });
 
-    it("owner access unchanged — uses current project", async () => {
+    it("owner access unchanged. Uses current project", async () => {
       const { config, workspace } = setup();
       const router = new MessageRouter(config);
       router.projects.setCurrent("crm");
@@ -696,7 +696,7 @@ describe("MessageRouter", () => {
     });
   });
 
-  // AC#4 – smart history rotation
+  // AC#4: smart history rotation
   describe("auto-fresh on heavy context", () => {
     it("clears chatId and uses resume=false when stored lastInputTokens >= 80k", async () => {
       const { config, workspace } = setup();
@@ -723,7 +723,7 @@ describe("MessageRouter", () => {
       const replies: string[] = [];
       await router.handle("do more work", async (t) => { replies.push(t); });
 
-      // resume must be false — the old chatId must NOT be passed to --resume
+      // resume must be false. The old chatId must NOT be passed to --resume
       expect(runSpy).toHaveBeenCalled();
       const callOpts = runSpy.mock.calls[0][0];
       expect(callOpts.resume).toBe(false);

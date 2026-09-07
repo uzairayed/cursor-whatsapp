@@ -1,5 +1,5 @@
 /**
- * Baileys client — patterns aligned with 7Chalo whatsapp-service:
+ * Baileys client. Patterns match 7Chalo whatsapp-service:
  * auth_info/, fetchLatestBaileysVersion, browser identity, QR via qrcode-terminal,
  * reconnect on close, clear auth on loggedOut.
  *
@@ -127,7 +127,7 @@ async function connect(
         const secs = Math.round(decision.delayMs / 1000);
         if (decision.action === "conflict") {
           console.warn(
-            `Connection replaced (440). ${decision.reason}. Retry in ${secs}s — unlink other Linked Devices if this repeats.`
+            `Connection replaced (440). ${decision.reason}. Retry in ${secs}s. Unlink other Linked Devices if this repeats.`
           );
         } else if (decision.action === "cooldown") {
           console.warn(`Reconnect storm detected. Cooling down ${secs}s before retry…`);
@@ -252,7 +252,7 @@ async function onMessage(
   if (content.hasAudio && !content.text?.startsWith("/")) {
     if (!config.openaiApiKey) {
       await sock.sendMessage(chatJid, {
-        text: "Got a voice note, but OPENAI_API_KEY isn't set — can't transcribe it.",
+        text: "Got a voice note, but OPENAI_API_KEY isn't set, so I can't transcribe it.",
       });
       return;
     }

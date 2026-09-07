@@ -30,7 +30,7 @@ function testConfig(overrides: Partial<AppConfig> = {}): AppConfig {
   } as AppConfig;
 }
 
-describe("ProjectStore – general project (Slice B)", () => {
+describe("ProjectStore: general project (Slice B)", () => {
   it("includes 'general' in list() after construction", () => {
     const store = new ProjectStore(testConfig());
     expect(store.list()).toContain("general");

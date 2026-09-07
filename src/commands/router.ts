@@ -100,7 +100,7 @@ export class MessageRouter {
       return;
     }
 
-    // ask <q> / /ask <q> — read-only Q&A, skip plan-first
+    // ask <q> / /ask <q>: read-only Q&A, skip plan-first
     const askMatch = trimmed.match(/^\/?\s*ask\s+(.+)$/is);
     if (askMatch?.[1]) {
       const question = askMatch[1].trim();
@@ -126,7 +126,7 @@ export class MessageRouter {
       if (!current) {
         this.projects.setAwaitingProjectPick(true);
         await reply(
-          `Quick one first — which project is this for?\n\n${this.projects.formatPicker()}\n\nReply with a number or the project name.`
+          `Which project is this for?\n\n${this.projects.formatPicker()}\n\nReply with a number or the project name.`
         );
         return;
       }
@@ -147,7 +147,7 @@ export class MessageRouter {
     if (planIntent?.kind === "approve") {
       const pending = this.projects.getPendingPlan();
       if (!pending) {
-        await reply("No plan waiting — send a task first (big ones get a plan automatically).");
+        await reply("No plan is waiting. Send a task first. Big ones get a plan on their own.");
         return;
       }
 
@@ -186,7 +186,7 @@ export class MessageRouter {
       if (!current) {
         this.projects.setAwaitingProjectPick(true);
         await reply(
-          `Quick one first — which project is this for?\n\n${this.projects.formatPicker()}\n\nReply with a number or the project name.`
+          `Which project is this for?\n\n${this.projects.formatPicker()}\n\nReply with a number or the project name.`
         );
         return;
       }
@@ -260,7 +260,7 @@ export class MessageRouter {
     if (!current) {
       this.projects.setAwaitingProjectPick(true);
       await reply(
-        `Quick one first — which project is this for?\n\n${this.projects.formatPicker()}\n\nReply with a number or the project name.`
+        `Which project is this for?\n\n${this.projects.formatPicker()}\n\nReply with a number or the project name.`
       );
       return;
     }
@@ -296,7 +296,7 @@ export class MessageRouter {
     if (!current) {
       this.projects.setAwaitingProjectPick(true);
       await reply(
-        `Quick one first — which project is this for?\n\n${this.projects.formatPicker()}\n\nReply with a number or the project name.`
+        `Which project is this for?\n\n${this.projects.formatPicker()}\n\nReply with a number or the project name.`
       );
       return;
     }
@@ -311,7 +311,7 @@ export class MessageRouter {
       : issueIntent?.body || null;
 
     if (opts.hasImage && !opts.imagePath && !source) {
-      await reply("Couldn't upload that screenshot — send it again.");
+      await reply("Couldn't upload that screenshot. Send it again.");
       return;
     }
 
@@ -410,7 +410,7 @@ export class MessageRouter {
 
     if (!enqueued.ok) {
       await reply(
-        `Queue is full (${QUEUE_CAP} tasks for this project) — wait for something to finish or say *stop all*.`
+        `Queue is full (${QUEUE_CAP} tasks for this project). Wait for one to finish, or say *stop all*.`
       );
       return true;
     }
@@ -419,15 +419,15 @@ export class MessageRouter {
       const running = this.runners.listBusy().length;
       await reply(
         enqueued.position === 1
-          ? `Queued — waiting for a free agent (${running} running, max ${MAX_CONCURRENT})`
-          : `Queued — ${enqueued.position} tasks waiting for a free agent (${running} running)`
+          ? `Queued. Waiting for a free agent (${running} running, max ${MAX_CONCURRENT})`
+          : `Queued. ${enqueued.position} tasks waiting for a free agent (${running} running)`
       );
       return true;
     }
 
     const ahead = 1 + (enqueued.position - 1);
     await reply(
-      ahead === 1 ? "Queued — 1 task ahead" : `Queued — ${ahead} tasks ahead`
+      ahead === 1 ? "Queued. 1 task ahead" : `Queued. ${ahead} tasks ahead`
     );
     return true;
   }
@@ -497,10 +497,10 @@ export class MessageRouter {
           },
         });
         if (enqueued.ok) {
-          await reply("Queued — 1 task ahead");
+          await reply("Queued. 1 task ahead");
         } else {
           await reply(
-            `Queue is full (${QUEUE_CAP} tasks for this project) — wait for something to finish or say *stop all*.`
+            `Queue is full (${QUEUE_CAP} tasks for this project). Wait for one to finish, or say *stop all*.`
           );
         }
         return;
@@ -540,7 +540,7 @@ export class MessageRouter {
     }
 
     if (autoFresh) {
-      await reply("Chat reset to save tokens — starting fresh.");
+      await reply("Chat reset to save tokens. Starting fresh.");
     }
 
     const agentModeLabel = useGeneralChat ? "general" : this.projects.getAgentMode();
@@ -598,7 +598,7 @@ export class MessageRouter {
         !result.timedOut &&
         isIncompletePlan(result.stdout)
       ) {
-        console.log(`[cursor] plan stub detected — retrying for full plan text`);
+        console.log(`[cursor] plan stub detected. Retrying for full plan text`);
         this.runners.markRunning(workspace, projectKey);
         result = await this.runners.runAcquired({
           cursorBin: this.config.cursorBin,
@@ -720,7 +720,7 @@ export class MessageRouter {
           },
         });
         if (enqueued.ok) {
-          await reply("Queued — 1 task ahead");
+          await reply("Queued. 1 task ahead");
         } else {
           await reply(err.message);
         }

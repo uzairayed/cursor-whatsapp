@@ -35,7 +35,7 @@ describe("ReconnectController", () => {
     expect(ctrl.decideAfterClose(WA_STATUS.timedOut, 0).delayMs).toBe(1000);
     expect(ctrl.attempt).toBe(1);
 
-    // Brief open then close — must NOT reset to 1s
+    // Brief open then close. Must NOT reset to 1s
     ctrl.recordOpen(1_000);
     const decision = ctrl.decideAfterClose(WA_STATUS.timedOut, 1_000 + 5_000);
     expect(decision.action).toBe("retry");

@@ -8,7 +8,7 @@ describe("buildConversationKey", () => {
     );
   });
 
-  it("falls back to lid:<jid> when phone is null — never the bare general key", () => {
+  it("falls back to lid:<jid> when phone is null. Never the bare general key", () => {
     expect(buildConversationKey(null, "111000000000001@lid")).toBe(
       "lid:111000000000001@lid"
     );

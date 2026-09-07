@@ -65,11 +65,11 @@ export function formatAgentModeReply(
 ): string {
   if (action === "query") {
     return mode === "orchestrate"
-      ? "Agent mode: *orchestrate* — main agent launches specialists via Task."
-      : "Agent mode: *solo* — one agent does the work inline.";
+      ? "Agent mode: *orchestrate*. The main agent can launch helpers."
+      : "Agent mode: *solo*. One agent does the work.";
   }
 
   return mode === "orchestrate"
-    ? "Switched to *orchestrate* — I'll use a main agent plus specialists for multi-step work."
-    : "Switched to *solo* — one agent, no specialist fan-out.";
+    ? "Switched to *orchestrate*. I'll use a main agent plus helpers for bigger work."
+    : "Switched to *solo*. One agent, no helpers.";
 }

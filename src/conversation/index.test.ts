@@ -21,7 +21,7 @@ describe("ConversationManager", () => {
     expect(mgr.load("fleet").messages).toHaveLength(0);
   });
 
-  // AC#4 – smart history rotation: lastInputTokens persisted
+  // AC#4: smart history rotation. lastInputTokens persisted
   it("persists lastInputTokens on state when usage is supplied to append", () => {
     const dir = mkdtempSync(join(tmpdir(), "cwa-hist-"));
     const mgr = new ConversationManager(dir);

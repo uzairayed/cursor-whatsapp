@@ -8,7 +8,7 @@ export type PlanApprovalIntent = { kind: "approve" } | { kind: "cancel" };
 
 const PLAN_PREAMBLE = [
   "You are planning only (read-only). Do not edit files or run mutating commands.",
-  "Your FINAL message must be the complete plan itself — not a promise to draft one,",
+  "Your FINAL message must be the complete plan itself, not a promise to draft one,",
   "not 'I'll review…', and not a status update. Put the whole plan in that message.",
   "",
   "Required sections (keep it WhatsApp-short):",
@@ -35,7 +35,7 @@ export function isIncompletePlan(text: string): boolean {
 }
 
 export const PLAN_RETRY_PROMPT = [
-  "Your previous message was not the plan — it was a status/promise.",
+  "Your previous message was not the plan. It was a status or promise.",
   "Output the complete WhatsApp plan NOW as your only message.",
   "Required sections: Goal, Specs, Ordered slices, Risks, Out of scope.",
   "Do not investigate further. Do not say you will draft a plan.",
@@ -106,11 +106,11 @@ export function buildImplementPrompt(pending: {
 }
 
 export function formatPlanReply(planText: string): string {
-  const body = planText.trim() || "(Plan was empty — try again or send a smaller task.)";
+  const body = planText.trim() || "(Plan was empty. Try again or send a smaller task.)";
   return [
     body,
     "",
-    "—",
-    "Reply *go* to implement this plan, or *cancel plan* to drop it.",
+    "-",
+    "Reply *go* to start this plan, or *cancel plan* to drop it.",
   ].join("\n");
 }

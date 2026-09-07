@@ -10,7 +10,7 @@ Bring Discord bridge UX improvements that are transport-agnostic into WhatsApp. 
 
 ## Keep WhatsApp-specific behavior
 
-- Auto plan-first for large prompts (`--mode ask` + stub retry) — do **not** replace with Discord’s hold-then-`plan`/`run` gate.
+- Auto plan-first for large prompts (`--mode ask` + stub retry). Do **not** replace this with Discord's hold-then-`plan`/`run` gate.
 - Orchestrate vs solo agent mode.
 - WhatsApp formatting (`*bold*`, 4000-char split).
 
@@ -28,7 +28,7 @@ Bring Discord bridge UX improvements that are transport-agnostic into WhatsApp. 
 - Up to **3** Cursor agents may run when they target **different** project directories.
 - Same-directory prompts queue (cap 5 per directory).
 - `status` lists busy projects and per-project queue depths when relevant.
-- `stop` cancels the **current** project’s run and clears that project’s queue.
+- `stop` cancels the **current** project's run and clears that project's queue.
 - `stop all` cancels every run and clears all queues.
 
 ### 3. Live progress steps

@@ -1,17 +1,17 @@
-# Improvement Plan — WhatsApp → Cursor Agent Bridge
+# Improvement Plan: WhatsApp to Cursor Agent Bridge
 
 Based on a full source audit (typecheck clean, 64/64 tests passing) and review of the
 live bridge logs. Four phases, ordered by risk reduction per effort. Each item is
 small and independently shippable. Every phase ends with `npm run typecheck && npm test`.
 
-## Phase 1 — Reliability fixes (live log shows all of these biting)
+## Phase 1: Reliability fixes (live log shows all of these biting)
 
 ### 1.1 Route replies through the active socket
 - Add a `SocketHolder` module with `getActive(): WASocket` and `setActive(sock)`,
   updated in `connect()` when a connection opens.
 - Change the `reply` closure in `src/baileys/client.ts` to resolve the socket at
   send time, not capture it. Today, a connection drop (codes 408/428/503 happen
-  constantly) during a 2–5 min Cursor run means the final answer is sent to a dead
+  constantly) during a 2-5 min Cursor run means the final answer is sent to a dead
   socket and silently lost.
 - On send failure, retry once after a short delay (covers the reconnect window).
 - Tests: unit test the holder + retry logic with a fake socket.
@@ -30,10 +30,10 @@ small and independently shippable. Every phase ends with `npm run typecheck && n
 ### 1.4 Run timeout
 - New env `CURSOR_TIMEOUT_MIN` (default 15). Timer inside `CursorRunner.run()` that
   triggers the same kill path and resolves with a `timedOut` flag.
-- Router replies: "That took too long, I stopped it — try breaking the task up."
+- Router replies: "That took too long, so I stopped it. Try a smaller task."
 - Tests: timer-based unit test with fake timers.
 
-## Phase 2 — Safety and correctness
+## Phase 2: Safety and correctness
 
 ### 2.1 Fail-closed allowlist
 - If `allowedNumbers` is empty, exit at startup with a clear message instead of
@@ -41,7 +41,7 @@ small and independently shippable. Every phase ends with `npm run typecheck && n
 
 ### 2.2 Prompt queue
 - Replace the "I'm still working" rejection with a small FIFO (cap ~5): enqueue,
-  reply "Queued — 1 task ahead", drain after each run.
+  reply "Queued. 1 task ahead", drain after each run.
 - "stop" cancels the current run; new "stop all" also clears the queue.
 
 ### 2.3 Reload `projects.json` on demand
@@ -53,14 +53,14 @@ small and independently shippable. Every phase ends with `npm run typecheck && n
   and `commands/usage.ts`) into one module.
 - Remove the dead `handleCommand` deprecated alias.
 
-## Phase 3 — UX (highest value first)
+## Phase 3: UX (highest value first)
 
 ### 3.1 Quieter progress
-- Progressive heartbeat intervals (45s, then 2m, then every 5m) — change
+- Progressive heartbeat intervals (45s, then 2m, then every 5m). Change
   `createProgressHeartbeat` to take an interval schedule instead of a fixed interval.
 
 ### 3.2 Reaction acks
-- React 👀 to the incoming message instead of sending the "On it — working in…"
+- React 👀 to the incoming message instead of sending the "On it. Working in..."
   text bubble; keep the text ack only when a queue position needs communicating.
 - Needs the message key threaded through to the router (small signature change).
 
@@ -73,7 +73,7 @@ small and independently shippable. Every phase ends with `npm run typecheck && n
 ### 3.4 Housekeeping on startup
 - Delete `history/inbox/` files and `logs/*.jsonl` older than 7 days (configurable).
 
-## Phase 4 — Docs
+## Phase 4: Docs
 
 - Fix README drift: `auth/` → `auth_info/`.
 - Replace the slash-command table with the actual conversational commands.
@@ -81,11 +81,11 @@ small and independently shippable. Every phase ends with `npm run typecheck && n
 
 ## Deliberately out of scope (for now)
 
-- **Per-sender sessions** — all allowed numbers currently share one project/session
+- **Per-sender sessions**: all allowed numbers currently share one project/session
   state. The real fix is a bigger refactor of `ProjectStore`/`ConversationManager`
   keying; the pragmatic mitigation is 2.1 plus trimming the allowlist. Follow-up
   item if multiple users are actually wanted.
-- **Sending images back** — needs a protocol for the agent to hand files to the
+- **Sending images back**: needs a protocol for the agent to hand files to the
   bridge (e.g. a magic output marker); worth designing separately.
 
 ## Execution order

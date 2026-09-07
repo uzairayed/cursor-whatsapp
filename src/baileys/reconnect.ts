@@ -82,7 +82,7 @@ export class ReconnectController {
     this.isConnecting = false;
   }
 
-  /** Mark the socket open. Does NOT reset backoff — that happens only after a stable session. */
+  /** Mark the socket open. Does NOT reset backoff. That happens only after a stable session. */
   recordOpen(now: number = Date.now()): void {
     this.openedAt = now;
     this.isConnecting = false;
@@ -108,7 +108,7 @@ export class ReconnectController {
       return {
         action: "reauth",
         delayMs: 0,
-        reason: "logged out — clear auth and show QR",
+        reason: "logged out. Clear auth and show QR",
       };
     }
 
@@ -116,7 +116,7 @@ export class ReconnectController {
       return {
         action: "stop",
         delayMs: 0,
-        reason: "forbidden (403) — not reconnecting; check account / ban status",
+        reason: "forbidden (403). Not reconnecting. Check account / ban status",
       };
     }
 
@@ -129,7 +129,7 @@ export class ReconnectController {
       return {
         action: "cooldown",
         delayMs: this.cooldownMs,
-        reason: `reconnect storm — cooling down ${Math.round(this.cooldownMs / 1000)}s`,
+        reason: `reconnect storm. Cooling down ${Math.round(this.cooldownMs / 1000)}s`,
       };
     }
 
@@ -139,7 +139,7 @@ export class ReconnectController {
         action: "conflict",
         delayMs: this.conflictDelayMs,
         reason:
-          "session conflict (440) — another client took the link; waiting before retry",
+          "session conflict (440). Another client took the link. Waiting before retry",
       };
     }
 

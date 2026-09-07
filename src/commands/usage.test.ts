@@ -36,7 +36,7 @@ describe("usage helpers", () => {
     expect(footer.toLowerCase()).toMatch(/new chat|start fresh/);
   });
 
-  // AC#4 – smart history rotation: constant exported
+  // AC#4: smart history rotation. Constant exported
   it("exports AUTO_FRESH_INPUT_TOKENS = 80_000", () => {
     expect(AUTO_FRESH_INPUT_TOKENS).toBe(80_000);
   });
