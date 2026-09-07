@@ -1,0 +1,14 @@
+---
+description: Spec-driven TDD with multi-agent orchestration
+alwaysApply: true
+---
+
+# Spec-driven TDD
+
+This repository uses **spec → red → green → refactor**.
+
+1. Read or update the relevant file under `specs/features/` before building a feature slice.
+2. Role contracts live in `specs/agents/`; Cursor runtime agents live in `.cursor/agents/`.
+3. No production code without a failing test first.
+4. For multi-step work, the main agent orchestrates and launches `tester`, `implementer`, and `reviewer` via the Task tool instead of doing everything inline.
+5. Bridge WhatsApp orchestration code belongs in `src/orchestration/`.

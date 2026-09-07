@@ -1,0 +1,13 @@
+{
+  "dirs": ["~/projects"],
+  "exclude": [
+    "cursor-whatsapp",
+    "node_modules",
+    "dist",
+    "build",
+    ".next"
+  ],
+  "aliases": {
+    "webapp": "~/projects/webapp"
+  }
+}
