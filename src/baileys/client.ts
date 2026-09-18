@@ -1,7 +1,7 @@
 /**
- * Baileys client. Patterns match 7Chalo whatsapp-service:
- * auth_info/, fetchLatestBaileysVersion, browser identity, QR via qrcode-terminal,
- * reconnect on close, clear auth on loggedOut.
+ * Baileys client: multi-file auth in auth_info/, fetchLatestBaileysVersion,
+ * browser identity, QR via qrcode-terminal, reconnect on close, clear auth
+ * on loggedOut.
  *
  * Also handles WhatsApp LID addressing (@lid + remoteJidAlt).
  */

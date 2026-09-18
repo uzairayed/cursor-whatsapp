@@ -15,9 +15,9 @@ describe("formatElapsed", () => {
 
 describe("formatProgressMessage", () => {
   it("tells the user work is still going and how to cancel", () => {
-    const msg = formatProgressMessage(90, "tagiser");
+    const msg = formatProgressMessage(90, "blog");
     expect(msg).toMatch(/still working/i);
-    expect(msg).toMatch(/TAGISER/);
+    expect(msg).toMatch(/BLOG/);
     expect(msg).toMatch(/1m 30s/);
     expect(msg).toMatch(/stop/i);
   });

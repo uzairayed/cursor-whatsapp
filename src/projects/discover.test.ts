@@ -6,8 +6,8 @@ import { discoverProjectsFromDirs, loadProjectsConfig } from "./discover.js";
 
 function makeTree(): { root: string; a: string; b: string; skip: string } {
   const root = mkdtempSync(join(tmpdir(), "cwa-discover-"));
-  const a = join(root, "ClipRoom");
-  const b = join(root, "Motocards");
+  const a = join(root, "WebApp");
+  const b = join(root, "Mobile");
   const skip = join(root, "notes");
   const hidden = join(root, ".hidden");
   mkdirSync(a);
@@ -25,15 +25,15 @@ describe("discoverProjectsFromDirs", () => {
     const { root, a, b } = makeTree();
     const found = discoverProjectsFromDirs([root], []);
     expect(found).toEqual({
-      cliproom: a,
-      motocards: b,
+      webapp: a,
+      mobile: b,
     });
   });
 
   it("honors exclude names", () => {
     const { root, b } = makeTree();
-    const found = discoverProjectsFromDirs([root], ["cliproom"]);
-    expect(found).toEqual({ motocards: b });
+    const found = discoverProjectsFromDirs([root], ["webapp"]);
+    expect(found).toEqual({ mobile: b });
   });
 });
 
@@ -48,18 +48,18 @@ describe("loadProjectsConfig", () => {
 
   it("merges scanned dirs with explicit aliases (aliases win on key clash)", () => {
     const { root, a } = makeTree();
-    const custom = join(root, "custom-clip");
+    const custom = join(root, "custom-web");
     mkdirSync(custom);
     const found = loadProjectsConfig({
       dirs: [root],
-      exclude: ["motocards"],
+      exclude: ["mobile"],
       aliases: {
-        cliproom: custom,
-        webapp: "/tmp/demo-webapp",
+        webapp: custom,
+        docs: "/tmp/demo-docs",
       },
     });
-    expect(found.cliproom).toBe(custom);
-    expect(found.webapp).toBe("/tmp/demo-webapp");
-    expect(found.motocards).toBeUndefined();
+    expect(found.webapp).toBe(custom);
+    expect(found.docs).toBe("/tmp/demo-docs");
+    expect(found.mobile).toBeUndefined();
   });
 });
