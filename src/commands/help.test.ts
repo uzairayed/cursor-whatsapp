@@ -8,13 +8,13 @@ import { handleUserMessage, type CommandContext } from "./index.js";
 
 function setup(withProject = true): ProjectStore {
   const root = mkdtempSync(join(tmpdir(), "cwa-help-"));
-  const workspace = join(root, "cliproom");
+  const workspace = join(root, "webapp");
   mkdirSync(workspace);
   writeFileSync(
     join(root, "projects.json"),
-    JSON.stringify({ cliproom: workspace, tagiser: join(root, "tagiser") })
+    JSON.stringify({ webapp: workspace, blog: join(root, "blog") })
   );
-  mkdirSync(join(root, "tagiser"));
+  mkdirSync(join(root, "blog"));
   const config: AppConfig = {
     rootDir: root,
     projectsFile: join(root, "projects.json"),
@@ -26,7 +26,7 @@ function setup(withProject = true): ProjectStore {
     allowedNumbers: [],
     casualNumbers: [],
     generalDir: join(root, "general"),
-    defaultProject: withProject ? "cliproom" : null,
+    defaultProject: withProject ? "webapp" : null,
     maxWhatsAppChars: 4000,
     appName: "CursorWA",
     cursorTimeoutMin: 15,
@@ -55,7 +55,7 @@ describe("help", () => {
 
     expect(result.reply).toMatch(/hey|hi|hello/i);
     expect(result.reply).toMatch(/just text|text me|send/i);
-    expect(result.reply?.toLowerCase()).toContain("cliproom");
+    expect(result.reply?.toLowerCase()).toContain("webapp");
     expect(result.reply).toMatch(/1\./);
     expect(result.reply).toMatch(/new chat/i);
     expect(result.reply).not.toContain("/project");

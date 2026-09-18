@@ -16,7 +16,7 @@ npm run dev
 
 Scan the QR code in the terminal with WhatsApp → Linked Devices.
 
-WhatsApp login files are stored in `auth_info/` (same layout as 7Chalo's `whatsapp-service`).
+WhatsApp login files are stored in `auth_info/`.
 
 ## Talking to the bridge
 
@@ -60,7 +60,7 @@ Longer notes live in `docs/`:
 | Variable | Default | Purpose |
 |---|---|---|
 | `ALLOWED_NUMBERS` | _(required)_ | Owner WhatsApp numbers, comma-separated (digits and country code) |
-| `ADMIN_WHATSAPP_PHONE` | none | Other name for a single owner number (7Chalo compat) |
+| `ADMIN_WHATSAPP_PHONE` | none | Alternate name for a single owner number |
 | `CASUAL_NUMBERS` | none | Numbers that can only use the built-in `general/` chat |
 | `CURSOR_BIN` | `cursor` | Cursor CLI binary |
 | `DEFAULT_PROJECT` | none | Project key from `projects.json` to select on first start |

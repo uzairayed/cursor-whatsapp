@@ -8,7 +8,7 @@ describe("resolveAllowedNumbers", () => {
     ]);
   });
 
-  it("falls back to ADMIN_WHATSAPP_PHONE (7Chalo)", () => {
+  it("falls back to ADMIN_WHATSAPP_PHONE", () => {
     expect(resolveAllowedNumbers(undefined, "923003333333")).toEqual([
       "923003333333",
     ]);

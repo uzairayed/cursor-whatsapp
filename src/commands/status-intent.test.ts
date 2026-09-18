@@ -8,9 +8,9 @@ import { handleUserMessage, type CommandContext } from "./index.js";
 
 function setup(): ProjectStore {
   const root = mkdtempSync(join(tmpdir(), "cwa-status-"));
-  const workspace = join(root, "tagiser");
+  const workspace = join(root, "blog");
   mkdirSync(workspace);
-  writeFileSync(join(root, "projects.json"), JSON.stringify({ tagiser: workspace }));
+  writeFileSync(join(root, "projects.json"), JSON.stringify({ blog: workspace }));
   return new ProjectStore({
     rootDir: root,
     projectsFile: join(root, "projects.json"),
@@ -22,7 +22,7 @@ function setup(): ProjectStore {
     allowedNumbers: [],
     casualNumbers: [],
     generalDir: join(root, "general"),
-    defaultProject: "tagiser",
+    defaultProject: "blog",
     maxWhatsAppChars: 4000,
     appName: "CursorWA",
     cursorTimeoutMin: 15,
@@ -56,7 +56,7 @@ describe("status intent", () => {
     const projects = setup();
     const result = handleUserMessage(ctx(projects, "are you working", {
       getRunStatus: () => ({
-        busy: [{ workspace: "/tmp/tagiser", projectKey: "tagiser" }],
+        busy: [{ workspace: "/tmp/blog", projectKey: "blog" }],
         queuedCount: 0,
         queueDepths: [],
       }),

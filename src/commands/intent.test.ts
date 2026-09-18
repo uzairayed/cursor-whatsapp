@@ -8,13 +8,13 @@ import { handleUserMessage, type CommandContext } from "./index.js";
 
 function setup(opts: { defaultProject?: string | null } = {}): ProjectStore {
   const root = mkdtempSync(join(tmpdir(), "cwa-intent-"));
-  const cliproom = join(root, "cliproom");
-  const tagiser = join(root, "tagiser");
-  mkdirSync(cliproom);
-  mkdirSync(tagiser);
+  const webapp = join(root, "webapp");
+  const blog = join(root, "blog");
+  mkdirSync(webapp);
+  mkdirSync(blog);
   writeFileSync(
     join(root, "projects.json"),
-    JSON.stringify({ cliproom, tagiser })
+    JSON.stringify({ webapp, blog })
   );
   const config: AppConfig = {
     rootDir: root,
@@ -56,7 +56,7 @@ describe("conversational intents", () => {
     const result = handleUserMessage(ctx(projects, "help"));
     expect(result.handled).toBe(true);
     expect(result.reply).toMatch(/hey|hi|hello/i);
-    expect(result.reply).toMatch(/1\.\s*CLIPROOM/i);
+    expect(result.reply).toMatch(/1\.\s*BLOG/i);
     expect(result.reply).toMatch(/reply with (a )?number|just reply/i);
     expect(result.reply).not.toContain("/project");
     expect(projects.isAwaitingProjectPick()).toBe(true);
@@ -66,17 +66,17 @@ describe("conversational intents", () => {
     const projects = setup();
     handleUserMessage(ctx(projects, "help"));
     const result = handleUserMessage(ctx(projects, "3"));
-    expect(result.reply).toMatch(/tagiser/i);
-    expect(projects.getCurrent()?.key).toBe("tagiser");
+    expect(result.reply).toMatch(/webapp/i);
+    expect(projects.getCurrent()?.key).toBe("webapp");
     expect(projects.isAwaitingProjectPick()).toBe(false);
   });
 
   it("understands switch to <name>", () => {
-    const projects = setup({ defaultProject: "tagiser" });
-    const result = handleUserMessage(ctx(projects, "switch to cliproom"));
+    const projects = setup({ defaultProject: "blog" });
+    const result = handleUserMessage(ctx(projects, "switch to webapp"));
     expect(result.handled).toBe(true);
-    expect(projects.getCurrent()?.key).toBe("cliproom");
-    expect(result.reply).toMatch(/cliproom/i);
+    expect(projects.getCurrent()?.key).toBe("webapp");
+    expect(result.reply).toMatch(/webapp/i);
   });
 
   it("prompts to choose a project before running a normal prompt", () => {
@@ -90,10 +90,10 @@ describe("conversational intents", () => {
 
   it("stops with plain language", () => {
     let stopped = false;
-    const projects = setup({ defaultProject: "cliproom" });
+    const projects = setup({ defaultProject: "webapp" });
     const result = handleUserMessage(ctx(projects, "stop", {
       getRunStatus: () => ({
-        busy: [{ workspace: "/tmp/cliproom", projectKey: "cliproom" }],
+        busy: [{ workspace: "/tmp/webapp", projectKey: "webapp" }],
         queuedCount: 0,
         queueDepths: [],
       }),
